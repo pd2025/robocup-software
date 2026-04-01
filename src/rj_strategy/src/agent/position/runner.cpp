@@ -38,16 +38,16 @@ namespace strategy {
         planning::LinearMotionInstant target;
         switch (current_state_) {
             case TOP_LEFT:
-                target = planning::LinearMotionInstant{rj_geometry::Point{2.0, 2.5}};
+                target = planning::LinearMotionInstant{rj_geometry::Point{1.0, 3.5}};
                 break;
             case TOP_RIGHT:
-                target = planning::LinearMotionInstant{rj_geometry::Point{-2.0, 2.5}};
+                target = planning::LinearMotionInstant{rj_geometry::Point{-1.0, 3.5}};
                 break;
             case BOTTOM_RIGHT:
-                target = planning::LinearMotionInstant{rj_geometry::Point{-2.0, 6.5}};
+                target = planning::LinearMotionInstant{rj_geometry::Point{1.0, 5.0}};
                 break;
             case BOTTOM_LEFT:
-                target = planning::LinearMotionInstant{rj_geometry::Point{2.0, 6.5}};
+                target = planning::LinearMotionInstant{rj_geometry::Point{-1.0, 5.0}};
                 break;
         }
 

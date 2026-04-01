@@ -33,6 +33,8 @@
 #include "rj_strategy/agent/position/solo_offense.hpp"
 #include "rj_strategy/agent/position/zoner.hpp"
 #include "rj_strategy/coordinator/kicker_picker_client.hpp"
+#include "rj_strategy/coordinator/stealer_client.hpp"
+
 
 namespace strategy {
 
@@ -117,6 +119,7 @@ private:
     std::unique_ptr<Position> current_position_;
 
     KickerPickerClient kicker_picker_;
+    StealerClient stealer_;
     OverridingPositions override_play_position_{OverridingPositions::AUTO};
 
     std::optional<RobotIntent> derived_get_task(RobotIntent intent) override;

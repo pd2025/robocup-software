@@ -2,16 +2,20 @@
 
 namespace strategy {
 
+//default offense constructor
 Offense::Offense(int r_id) : Position{r_id, "Offense"}, seeker_{r_id} {}
 
+//offense copy constructor
 Offense::Offense(const Position& other) : Position{other}, seeker_{robot_id_} {
     position_name_ = "Offense";
 }
 
+
 std::optional<RobotIntent> Offense::derived_get_task(RobotIntent intent) {
-    // Get next state, and if different, reset clock
+    // Get next state
     State new_state = next_state();
 
+    //if current state not = next state, reset clock
     if (current_state_ != new_state) {
         reset_timeout();
 

@@ -58,12 +58,15 @@ set(RJ_STRATEGY_SRC
   src/agent/position/solo_offense.cpp
   src/agent/position/waller.cpp
   src/agent/position/zoner.cpp
+  src/agent/position/runner.cpp
+  # src/agent/position/dribbler.cpp
 
   # Communication
   src/agent/communication.cpp
 
   # Coordinators
   src/coordinator/kicker_picker_client.cpp
+  src/coordinator/stealer_client.cpp
 )
 
 # rj_strategy library
@@ -105,13 +108,28 @@ add_executable(kicker_picker_node
   src/coordinator/kicker_picker.cpp
 )
 
+add_executable(stealer_node
+  ${RJ_STRATEGY_SRC}
+  src/coordinator/stealer_client.cpp
+  src/coordinator/stealer.cpp)
+
 target_include_directories(kicker_picker_node
   PUBLIC
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
   $<INSTALL_INTERFACE:include>
 )
 
+target_include_directories(stealer_node
+  PUBLIC
+  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+  $<INSTALL_INTERFACE:include>
+)
+
 ament_target_dependencies(kicker_picker_node
+  ${RJ_STRATEGY_DEPS}
+)
+
+ament_target_dependencies(stealer_node
   ${RJ_STRATEGY_DEPS}
 )
 
@@ -146,7 +164,7 @@ install(
 )
 
 install(
-  TARGETS straight_line_test_node kicker_picker_node agent_action_clients
+  TARGETS straight_line_test_node kicker_picker_node stealer_node agent_action_clients
   DESTINATION lib/${PROJECT_NAME}
 )
 

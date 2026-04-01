@@ -1,0 +1,37 @@
+// ros specific imports
+#include <rclcpp/rclcpp.hpp>
+
+//position class that dribbler is inheriting
+#include "rj_strategy/agent/position.hpp"
+#include <rj_geometry/point.hpp>
+#include <rj_common/planning/instant.hpp>
+
+
+
+namespace strategy {
+    // class Dribbler that inherits from Position
+    class Dribbler : public Position {
+        public:
+            // "standard" constructor we will be using
+            Dribbler(int dribbler_id);
+            /* Class destructor*/
+            // things you can do right before constructor is erased from memory
+            ~Dribbler() = default;
+            Dribbler(const Position& other);
+
+            // overrides the get_current_state method from position 
+            std::string get_current_state() override;
+
+        private:
+            std::optional<RobotIntent> derived_get_task(RobotIntent intent) override;
+            enum State { TO_BALL, ROTATE, DRIBBLE };
+            State current_state_ = TO_BALL;
+            std::optional<RobotIntent> state_to_task(RobotIntent intent);
+            bool has_ball = false;
+            double distance_to_ball() const {
+                return last_world_state_->ball.position.dist_to(
+            last_world_state_->get_robot(true, robot_id_).pose.position());
+            };
+            State next_state();
+    };
+}
