@@ -58,7 +58,6 @@ set(RJ_STRATEGY_SRC
   src/agent/position/solo_offense.cpp
   src/agent/position/waller.cpp
   src/agent/position/zoner.cpp
-  src/agent/position/runner.cpp
   # src/agent/position/dribbler.cpp
 
   # Communication

@@ -38,10 +38,6 @@ add_executable(sim_radio_node
   src/radio.cpp
 )
 
-add_executable(soccermom
-    src/soccermom.cpp
-)
-
 target_link_libraries(network_radio_node
   PUBLIC
   spdlog
@@ -63,12 +59,6 @@ target_include_directories(network_radio_node
 )
 
 target_include_directories(sim_radio_node
-  PUBLIC
-  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
-  $<INSTALL_INTERFACE:include>
-)
-
-target_include_directories(soccermom
   PUBLIC
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
   $<INSTALL_INTERFACE:include>
@@ -110,13 +100,6 @@ ament_target_dependencies(sim_radio_node
   rj_constants
 )
 
-ament_target_dependencies(soccermom
-    rclcpp
-    std_msgs
-    rj_constants
-    rj_msgs
-)
-
 install(
   DIRECTORY include/
   DESTINATION include
@@ -124,11 +107,6 @@ install(
 
 install(
   TARGETS network_radio_node sim_radio_node
-  DESTINATION lib/${PROJECT_NAME}
-)
-
-install(
-  TARGETS soccermom
   DESTINATION lib/${PROJECT_NAME}
 )
 
