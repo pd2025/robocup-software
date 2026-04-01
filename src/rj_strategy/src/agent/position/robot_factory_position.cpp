@@ -3,10 +3,7 @@
 namespace strategy {
 
 RobotFactoryPosition::RobotFactoryPosition(int r_id, rclcpp::Node::SharedPtr node)
-    : Position(r_id, "RobotFactoryPosition"),
-    kicker_picker_(node, r_id), 
-    stealer_(node, r_id)
-    {
+    : Position(r_id, "RobotFactoryPosition"), kicker_picker_(std::move(node), r_id) {
     if (robot_id_ == 0) {
         current_position_ = std::make_unique<Goalie>(robot_id_);
     } else if (robot_id_ == 1 || robot_id_ == 2) {
@@ -94,10 +91,8 @@ void RobotFactoryPosition::handle_setup() {
     if (current_play_state_.is_our_restart()) {
         // Set up our restart
 
-        // if we're in kickoff or penalty and kicker_picker_ is not a member (?)
         if ((current_play_state_.is_kickoff() || current_play_state_.is_penalty()) &&
             !kicker_picker_.am_i_member()) {
-                // pick the bot closest to the ball to be the picker (?)
             kicker_picker_.join_group([this](KickerPickerClient::Result result) {
                 if (result.am_i_member && result.kicker_id == robot_id_ &&
                     current_play_state_.is_kickoff()) {
@@ -233,16 +228,11 @@ void RobotFactoryPosition::set_default_position() {
     } else {
         // Defensive mode
         // Closest 4 robots on defense, rest on offense
-        // if (i <= 3) {
-        //     set_current_position<Defense>();
-        // } else {
-        //     set_current_position<Offense>();
-        // }
-        stealer_.join_group([this](StealerClient::Result result) {
-            if (result.am_i_member && result.stealer_id == robot_id_) {
-                set_current_position<Offense>();
-            }
-        });
+        if (i <= 3) {
+            set_current_position<Defense>();
+        } else {
+            set_current_position<Offense>();
+        }
     }
 }
 

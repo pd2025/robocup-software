@@ -34,20 +34,17 @@ void Stealer::publish_selected_stealer() {
     // saves ball position as ball_pos
     const auto& ball_pos = last_world_state_.ball.position;
 
-    // if ball is on the other team's side of the field
-    if (field_dimensions_.their_defense_area().contains_point(ball_pos)) {
-        // for every robot
-        for (uint8_t i = 0; i < kNumShells; ++i) {
-            // if the robot wants to steal
-            if (wants_to_steal_by_id_[i]) {
-                const auto& robot = last_world_state_.get_robot(true, i);
-                // save distance as dist between ball_pos and robot_pos
-                double distance = ball_pos.dist_to(robot.pose.position());
-                // if the distance is less than min dist, update min dist and make that robot the selected stealer
-                if (distance < min_distance) {
-                    min_distance = distance;
-                    selected_stealer = i;
-                }
+    // for every robot
+    for (uint8_t i = 0; i < kNumShells; ++i) {
+        // if the robot wants to steal
+        if (wants_to_steal_by_id_[i]) {
+            const auto& robot = last_world_state_.get_robot(true, i);
+            // save distance as dist between ball_pos and robot_pos
+            double distance = ball_pos.dist_to(robot.pose.position());
+            // if the distance is less than min dist, update min dist and make that robot the selected stealer
+            if (distance < min_distance) {
+                min_distance = distance;
+                selected_stealer = i;
             }
         }
     }
